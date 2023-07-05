@@ -1,19 +1,32 @@
 {
-    "user" :   
-    [
-        {
-            "id" : 1,
-            "name": "aco",
-            "nominal" : 1000,
-            "category" : "foyafoya",
-            "date": ""
+  "user": [
+    {
+      "id": 1,
+      "name": "aco",
+      "nominal": 1000,
+      "category": "foyafoya",
+      "date": ""
     },
     {
-        "id" : 2,
-            "name": "John",
-            "nominal" : 2000,
-            "category" : "Hambur",
-            "date": ""
+      "name": "Felix",
+      "nominal": 8000,
+      "category": "BO",
+      "date": "",
+      "id": 3
+    },
+    {
+      "name": "Felix",
+      "nominal": 10000,
+      "category": "BO Lagi",
+      "date": "",
+      "id": 4
+    },
+    {
+      "name": "Felix",
+      "nominal": 10000,
+      "category": "BO",
+      "date": "",
+      "id": 5
     }
-]
+  ]
 }

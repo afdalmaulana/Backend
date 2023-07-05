@@ -10,10 +10,8 @@ const axios = require("axios")
 router.get("/list", async (req, res) => {
     try {
         const result = await axios.get(`${axiosURL}/user`);
-        if (result.data.length > 0 ){
             console.log(result.data)
             res.status(200).send(result.data)
-        } 
     } catch (error) {
         console.log("error")
         res.status(500).json({message: error})
@@ -21,27 +19,63 @@ router.get("/list", async (req, res) => {
     // res.send("Foyafoya")
 })
 
-router.get("/list/:id", async (req, res) => {
+router.get("/list/details/:id", async (req, res) => {
     const {id} = req.params
     try {
         const respon = await axios.get(`${axiosURL}/user/${id}`)
+        console.log(axiosURL)
         res.send(respon.data)
     } catch (error) {
         res.status(500).send({message:error});
     }
 })
 
-router.get("/details", (req, res) => {
-    res.send("Details")
+router.post("/new-expense", async (req, res) => {
+    try {
+        const respon = await axios.post(
+            `${axiosURL}/user`, req.body
+        )
+        res.send(respon.data)
+    } catch (error) {
+        res.status(500).send({message:error})
+    }
 })
 
-router.post("/new-expense", (req, res) => {
-    res.send("New list have been upload")
+router.patch("/edit-expense/:id", async (req,res)=> {
+    const {id} = req.params
+    try {
+        const respon = await axios.patch(
+            `${axiosURL}/user/${id}`, req.body
+        )
+        res.send(respon.data)
+    } catch (error) {
+        res.status(500).send({message:error})
+    }
 })
 
-router.delete("/delete-expense", (req, res) => {
-    res.send("Expense deleted")
+router.delete("/delete-expense/:id", async (req, res) => {
+    const {id} = req.params
+    try {
+        const respon = await axios.delete(
+            `${axiosURL}/user/${id}`, req.body
+        )
+        res.send("Expense Deleted")
+        console.log(respon.data)
+    } catch (error) {
+        res.status(500).send({message:error})
+    }
 })
 
+router.get("/total-expense/:category", async (req, res) => {
+    const {category} = req.params
+    try {
+        const respon = await axios.get(
+            `${axiosURL}/user/${category}`
+        )
+        res.send("Total Expense", respon.data )
+    } catch (error) {
+        res.status(500).send({message:error})
+    }
+})
 
 module.exports = router;
