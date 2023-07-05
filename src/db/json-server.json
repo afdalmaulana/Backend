@@ -1,0 +1,30 @@
+{
+  "user": [
+    {
+      "id": 1,
+      "username": "John01",
+      "email": "john@gmail.com",
+      "phone": "082345445321",
+      "password": "John123@",
+      "confirmPassword": "John123@",
+      "currentUsername": "John01",
+      "newUsername": "NewJohn01"
+    },
+    {
+      "username": "denoxet",
+      "email": "denoxet582@larland.com",
+      "phone": "085632564513",
+      "password": "denoxet582@larland.com",
+      "confirmPassword": "denoxet582@larland.com",
+      "id": 2
+    },
+    {
+      "username": "Penefod20",
+      "email": "penefod20@larland.com",
+      "phone": "082632565113",
+      "password": "Penefod20@",
+      "confirmPassword": "Penefod20@",
+      "id": 3
+    }
+  ]
+}
