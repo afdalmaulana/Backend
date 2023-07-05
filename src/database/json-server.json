@@ -1,0 +1,12 @@
+{
+    "user" :   
+    [
+        {
+            "id" : 1,
+            "name": "aco",
+            "nominal" : 1000,
+            "category" : "foyafoya",
+            "date": ""
+    }
+]
+}
