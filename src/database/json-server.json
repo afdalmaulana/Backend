@@ -7,6 +7,13 @@
             "nominal" : 1000,
             "category" : "foyafoya",
             "date": ""
+    },
+    {
+        "id" : 2,
+            "name": "John",
+            "nominal" : 2000,
+            "category" : "Hambur",
+            "date": ""
     }
 ]
 }

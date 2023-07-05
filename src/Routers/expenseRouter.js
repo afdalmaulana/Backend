@@ -21,6 +21,16 @@ router.get("/list", async (req, res) => {
     // res.send("Foyafoya")
 })
 
+router.get("/list/:id", async (req, res) => {
+    const {id} = req.params
+    try {
+        const respon = await axios.get(`${axiosURL}/user/${id}`)
+        res.send(respon.data)
+    } catch (error) {
+        res.status(500).send({message:error});
+    }
+})
+
 router.get("/details", (req, res) => {
     res.send("Details")
 })
