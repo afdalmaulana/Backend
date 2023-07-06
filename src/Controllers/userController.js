@@ -160,7 +160,7 @@ const putForgotPassword = async (req, res) => {
             message : "Check your email for change password"
         })
     } catch (error) {
-        res.status(500).send({message:"Invalid"})
+        res.status(500).send({message:"email not found"})
     }
 }
 

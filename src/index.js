@@ -6,12 +6,13 @@ require("dotenv").config({
 const express = require("express")
 const PORT = process.env.PORT || 8000;
 
-const {userRouter} = require("./Routers");
+const {userRouter, blogRouter} = require("./Routers");
 
 const app = express()
 app.use(express.json())
 
-app.use("/api/mini-project", userRouter)
+app.use("/api/mini-project/auth", userRouter)
+app.use("/api/mini-project", blogRouter)
 
 app.use((req, res, next) => {
     console.log("Time", Date.now())

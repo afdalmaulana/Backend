@@ -25,6 +25,47 @@
       "password": "Penefod20@",
       "confirmPassword": "Penefod20@",
       "id": 3
+    },
+    {
+      "username": "Penefod20",
+      "email": "penefod20@larland.com",
+      "phone": "082632565113",
+      "password": "Penefod20@",
+      "confirmPassword": "Penefod20@",
+      "id": 4
     }
+  ],
+  "blog": [
+    {
+      "id": 1,
+      "title": "Jujutsu Kaisen",
+      "content": "Season 2 is coming soon",
+      "category": "Fiksi",
+      "published": "July 23, 2023"
+    },
+    {
+      "id": 2,
+      "title": "Tesla",
+      "content": "Tesla have a car that can fly",
+      "category": "Teknologi",
+      "published": "Mei 18, 2022"
+    },
+    {
+      "id": 3,
+      "title": "Traditional Food",
+      "content": "Konro is the best food from Makassar, Indonesia",
+      "category": "Food",
+      "published": "Mei 18, 2022"
+    },
+    {
+      "id": 4,
+      "title": "Jpgja Food",
+      "content": "Gudeg is the best food from Yogyakarta, Indonesia",
+      "category": "Food",
+      "published": "Mei 18, 2022"
+    }
+  ],
+  "category" : [
+    {}
   ]
 }
