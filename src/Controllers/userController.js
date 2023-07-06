@@ -68,10 +68,10 @@ const postLogin = async (req, res) => {
 
 const patchChangeUsername = async (req, res) => {
     try {
-        const {id} =req.params
+        // const {id} =req.params
         const {currentUsername, newUsername} = req.body
         const {data} = await axios.patch(
-        `${url}/user/${id}`, {
+        `${url}/user`, {
             currentUsername,
             newUsername
         }
@@ -84,10 +84,10 @@ const patchChangeUsername = async (req, res) => {
 
 const patchChangePassword = async (req, res) => {
     try {
-        const {id} = req.params
+        // const {id} = req.params
         const {currentPassword, newPassword, confirmPassword} = req.body
         const respon = await axios.patch(
-            `${url}/user/${id}`, {
+            `${url}/user`, {
                 currentPassword,
                 newPassword,
                 confirmPassword
@@ -101,10 +101,9 @@ const patchChangePassword = async (req, res) => {
 
 const patchChangeEmail = async (req, res) => {
     try {
-        const {id} = req.params
         const {currentEmail, newEmail} = req.body
         const respon = await axios.patch(
-            `${url}/user/${id}`, {
+            `${url}/user`, {
                 currentEmail,
                 newEmail
             }
@@ -117,10 +116,10 @@ const patchChangeEmail = async (req, res) => {
 
 const patchChangePhone = async (req, res) => {
     try {
-        const {id} = req.params
+        // const {id} = req.params
         const {currentPhone, newPhone} = req.body
         const respon = await axios.pacth(
-            `${url}/user/${id}`, {
+            `${url}/user`, {
                 currentPhone,
                 newPhone
             }
@@ -131,4 +130,38 @@ const patchChangePhone = async (req, res) => {
     }
 }
 
-module.exports = {getAccount, postAccount, postLogin ,getAccountById, patchChangeUsername, patchChangeEmail, patchChangePassword, patchChangePhone}
+const patchResetPassword = async (req, res) => {
+    try {
+        const {password, confirmPassword} = req.body
+        const respon = await axios.get(
+            `${url}/user`, {
+                password,
+                confirmPassword
+            }
+        )
+        res.status(200).json({
+            message: "Reset Password Success",
+            data: respon
+        })
+    } catch (error) {
+        res.status(500).send({message:"Errorrsss"})
+    }
+}
+
+const putForgotPassword = async (req, res) => {
+    try {
+        const {email} = req.body
+        const respon = await axios.put(
+            `${url}/user`, {
+                email
+            }
+        )
+        res.status(200).json({
+            message : "Check your email for change password"
+        })
+    } catch (error) {
+        res.status(500).send({message:"Invalid"})
+    }
+}
+
+module.exports = {getAccount, postAccount, postLogin ,getAccountById, patchChangeUsername, patchChangeEmail, patchChangePassword, patchChangePhone, patchResetPassword, putForgotPassword}
