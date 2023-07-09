@@ -1,6 +1,13 @@
 const axios = require("axios")
+const mysql = require("mysql2")
 const url = process.env.JSON_SERVER_URL;
-
+require('dotenv').config({
+    path : path.resolve(__dirname,"../.env")
+})
+const host_db = process.env.host;
+const user_db = process.env.user;
+const database = process.env.database;
+const portDb = process.env.portDb;
 const getAccount = async (req,res) => {
     try {
         const respon = await axios.get(
@@ -24,6 +31,13 @@ const getAccountById = async (req, res)=> {
         req.status(500).send({message:"ERROR"})
     }
 }
+
+const db = mysql.createConnection({
+    host: host_db,
+    user: user_db,
+    database: database,
+    port: portDb
+})
 
 const postAccount = async (req, res) => {
     try {
