@@ -49,18 +49,26 @@ const postAccount = async (req, res) => {
 const postLogin = async (req, res) => {
     try {
         const {username, email, phone, password} = req.body
-        const {data} = await axios.post(
+        const {data} = await axios.get(
             `${url}/user`, {
                 username,
-                email, 
+                email,
                 phone,
-                password
+                password,
             }
         )
-        res.status(200).json({
-            message : "Welcome",
-            data
-        })
+        const users = data;
+        const user = users.find(user => user.username === username || user.email === email || user.phone === phone && user.password === password)
+        // console.log(users);
+        if(!user){
+            res.status(404).json({
+                message : "Account not defined"
+            })
+        }else{
+            res.status(200).json({
+                message: "Login Success"
+            })
+        }
     } catch (error) {
         res.status(500).send({message:"Error"})
     }
