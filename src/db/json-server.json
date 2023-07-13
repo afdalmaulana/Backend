@@ -25,14 +25,6 @@
       "password": "Penefod20@",
       "confirmPassword": "Penefod20@",
       "id": 3
-    },
-    {
-      "username": "Penefod20",
-      "email": "penefod20@larland.com",
-      "phone": "082632565113",
-      "password": "Penefod20@",
-      "confirmPassword": "Penefod20@",
-      "id": 4
     }
   ],
   "blog": [
@@ -65,7 +57,7 @@
       "published": "Mei 18, 2022"
     }
   ],
-  "category" : [
+  "category": [
     {}
   ]
 }
