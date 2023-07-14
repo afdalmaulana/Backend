@@ -8,10 +8,10 @@ const db = require("./models")
 const app = express();
 
 // const { userRouter } = require("./Routers")
-const { userRouter } = require("./Routers")
+const { userRouter, profileRouter, blogRouter } = require("./Routers")
 
 app.use(express.json());
-app.use("/mini-project", userRouter)
+app.use("/mini-project/api", userRouter, profileRouter, blogRouter)
 
 
 // db.sequelize.sync({alter:true});

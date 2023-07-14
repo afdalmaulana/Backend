@@ -1,6 +1,8 @@
 const db = require("../models")
 const user = db.User;
 const {op} = db.sequelize
+const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
 const userController = {
     getAccountById : async (req, res)=> {
@@ -38,13 +40,30 @@ const userController = {
     postAccount: async (req,res) => {
         try {
             const {username, email, phone, password, confirmPassword} = req.body
+            if(password !== confirmPassword){
+                return res.status(500).json({
+                    message : "Password not match"
+                })
+            }
+            const isEmailExist = await user.findOne({
+                where : {
+                    email : email
+                }
+            })
+            if(isEmailExist){
+                return res.status(200).json({
+                    message : "Email Already Exist"
+                })
+            }
+            const salt = await bcrypt.genSalt(10);
+            console.log("ini salt",salt)
+            const hashPassword = await bcrypt.hash(password, salt);
             await db.sequelize.transaction(async (t) => {
                 const result = await user.create({
                     username,
                     email,
                     phone,
-                    password,
-                    confirmPassword
+                    password : hashPassword
                 }, {transaction : t});
                 res.status(200).json({
                     message : "Registrasi Success",
@@ -62,29 +81,40 @@ const userController = {
     postLogin : async(req, res) => {
         try {
             const {username, password} = req.body
-            const result = await user.findOne({
+            const checkLogin = await user.findOne({
                 where : {
                     username,
-                    password
+                    // password
                 }
             });
-            // if(!result.data){
-            //     res.status(200).json({
-            //         message : "Login Success",
-            //         data : respon
-            //     })
-            // } else {
-            //     res.status(500).json({
-            //         message : "Login Failed",
-            //     })
-            // }
-            console.log(result);
-            res.status(200).json({
+            console.log(checkLogin);
+            if(!checkLogin){
+                return res.status(500).json({
+                    message : "Account not defined"
+                })
+            }
+            const isValid = await bcrypt.compare(password, checkLogin.password)
+            if(!isValid){
+                return res.status(500).json({
+                    message : "Password is incorrect"
+                })
+            }
+            let payload = {
+                id : checkLogin.id,
+                username : checkLogin.username,
+                email : checkLogin.email,
+                phone : checkLogin.phone
+            }
+            const token = jwt.sign(payload, process.env.JWT_KEY,
+                {
+                    expiresIn : "1h"
+                })
+            return res.status(200).json({
                 message : "Login Success",
-                data : result
+                data : token
             })
         } catch (error) {
-            res.status(500).send({
+            return res.status(500).send({
                 message:"Login Failed",
                 error : error.message
             })
@@ -92,38 +122,6 @@ const userController = {
     }
 
 }
-    
-
-
-
-// const postLogin = async (req, res) => {
-//     try {
-//         const {username, email, phone, password} = req.body
-//         const {data} = await axios.get(
-//             `${url}/user`, {
-//                 username,
-//                 email,
-//                 phone,
-//                 password,
-//             }
-//         )
-//         const users = data;
-//         const user = users.find(user => user.username === username || user.email === email || user.phone === phone && user.password === password)
-//         // console.log(users);
-//         console.log("ini user",user);
-//         if(!user){
-//             res.status(404).json({
-//                 message : "Account not defined"
-//             })
-//         }else{
-//             res.status(200).json({
-//                 message: "Login Success"
-//             })
-//         }
-//     } catch (error) {
-//         res.status(500).send({message:"Error"})
-//     }
-// }
 
 // const patchChangeUsername = async (req, res) => {
 //     try {
