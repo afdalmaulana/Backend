@@ -39,12 +39,14 @@ const blogController = {
     getBlogById : async (req, res) => {
         try {
             const {id} =req.params;
-            const {data} = await axios.get(
-                `${url}/blog/${id}`
-            )
+            const result = await blog.findOne({
+                where : {
+                    id 
+                }
+            })
             res.status(200).json({
                 message: "Blog Details",
-                data
+                data : result
             })
         } catch (error) {
             req.status(500).send("Blog not found")

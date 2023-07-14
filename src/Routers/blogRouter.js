@@ -5,7 +5,7 @@ const blog = express.Router();
 
 
 blog.get("/auth/blog", blogController.getBlog)
-blog.get("/aut/blog/:id", blogController.getBlogById)
+blog.get("/auth/blog/:id", blogController.getBlogById)
 blog.post("/blog", verifyToken, blogController.postBlog)
 
 module.exports = blog
