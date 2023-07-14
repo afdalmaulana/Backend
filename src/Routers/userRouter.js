@@ -9,7 +9,7 @@ const userController = require("../Controllers/userController");
 router.post("/auth/register", userController.postAccount)
 router.get("/auth/account", userController.getAccount)
 router.get("/auth/account/:id", userController.getAccountById)
-// router.post("/login", postLogin)
+router.post("/auth/login", userController.postLogin)
 // router.patch("/changeUsername", patchChangeUsername)
 // router.patch("/changeEmail", patchChangeEmail)
 // router.patch("/changePassword", patchChangePassword)

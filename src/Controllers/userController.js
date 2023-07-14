@@ -58,7 +58,39 @@ const userController = {
                 error : error.message
             })
         }
+    },
+    postLogin : async(req, res) => {
+        try {
+            const {username, password} = req.body
+            const result = await user.findOne({
+                where : {
+                    username,
+                    password
+                }
+            });
+            // if(!result.data){
+            //     res.status(200).json({
+            //         message : "Login Success",
+            //         data : respon
+            //     })
+            // } else {
+            //     res.status(500).json({
+            //         message : "Login Failed",
+            //     })
+            // }
+            console.log(result);
+            res.status(200).json({
+                message : "Login Success",
+                data : result
+            })
+        } catch (error) {
+            res.status(500).send({
+                message:"Login Failed",
+                error : error.message
+            })
+        }
     }
+
 }
     
 
