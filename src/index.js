@@ -7,32 +7,23 @@ const express = require("express")
 const db = require("./models")
 const app = express();
 
-// const { userRouter } = require("./Routers")
+const {infoLogger} = require("./helpers/logger")
+
 const { userRouter, profileRouter, blogRouter } = require("./Routers")
 
 app.use(express.json());
 app.use("/mini-project/api", userRouter, profileRouter, blogRouter)
-
+app.use("/public", express.static(path.resolve(__dirname, "./public")))
 
 // db.sequelize.sync({alter:true});
-
-
-// const express = require("express")
-// const PORT = process.env.PORT || 8000;
-
-// const {userRouter, blogRouter} = require("./Routers");
-
-// const app = express()
-// app.use(express.json())
-
-// app.use("/api/mini-project/auth", userRouter)
-// app.use("/api/mini-project", blogRouter)
-
-// app.use((req, res, next) => {
-//     console.log("Time", Date.now())
-//     next();
+// ini untuk function declaration
+// app.listen(PORT, function () {
+//     infoLogger.info(`Server is running on port ${PORT}`)
+//     // console.log(`Server is running on port ${PORT}`)
 // })
 
+// ini untuk arrow function
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
+    infoLogger.info(`Server is running on port ${PORT}`)
+    // console.log(`Server is running on port ${PORT}`)
 })

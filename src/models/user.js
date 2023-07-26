@@ -9,9 +9,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    username: DataTypes.STRING,
-    email: DataTypes.STRING,
-    phone: DataTypes.STRING,
+    username: {
+      type : DataTypes.STRING,
+      unique : true
+    },
+    email: {
+      type : DataTypes.STRING,
+      unique : true
+    },
+    phone: {
+      type: DataTypes.STRING,
+      unique : true
+    },
     password: DataTypes.STRING,
     isVerified: {
       defaultValue : false,

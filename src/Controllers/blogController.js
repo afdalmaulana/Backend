@@ -2,40 +2,40 @@ const axios = require("axios")
 const url = process.env.JSON_SERVER_URL;
 const db = require("../models")
 const blog = db.Blog;
-const {op} = db.sequelize
+const category = db.Category;
+const user = db.User;
+const country = db.Country
+const {Op} = db.Sequelize
 
 const blogController = {
     getBlog : async(req, res) => {
-        try {
-            const { category } = req.query;
-            const paramCategory = category ? "category=" + category : "";
-            const result = await blog.findAll()
-            if(result.length > 0){
-                return res.status(200).json({
+        const {id, title, categoryId, orderBy, size, page } = req.query;
+        const limitPerPage = parseInt(size) || 10;
+        const pageNumber = parseInt(page) || 1;
+        const iniId = parseInt(id);
+        const offset = (pageNumber - 1) * limitPerPage;
+        const findTitle = {title : { [Op.like] : `%${title || ""}%`}}
+        if(categoryId) findTitle.categoryId = categoryId;
+        try { 
+            const result = await blog.findAll({
+                attributes : {exclude : ["categoryId"]},
+                where : iniId || findTitle,
+                limit : limitPerPage,
+                blogPage : pageNumber,
+                offset,
+                include : [
+                    { model : user, attributes : ["id", "username", "img"] },
+                    { model : category, attributes : {exclude : ["createdAt", "updatedAt"]} },
+                    { model : country, attributes : ["id", "country_name"] }],
+                    order : [["createdAt", orderBy || "ASC"]]
+            })
+            if(result.length > 0){ return res.status(200).json({
                     message : "Get Blog Success",
-                    data : result
-                })
-            } else {
-                return res.status(500).json({
-                    message : "Blog not found"
-                })
-            }
-            // const {data} = await axios.get(
-            //     `${url}/blog?${paramCategory}`
-            // )
-            // if (data.length > 0){
-            //     res.status(200).json({
-            //         message: "Blog Details",
-            //         data
-            //     })
-            // }else{
-            //     res.status(500).send({message:"Blog not found"})
-            // }
-            // res.status(200).send(respon.data)
-        } catch (error) {
-            res.status(500).send({message:"error", error : error.message})
-        }
-    },
+                    listLimit : limitPerPage,
+                    blogPage : pageNumber,
+                    data : result})
+            } else {return res.status(500).json({message : "Blog not found" })}
+        } catch (error) {res.status(500).send({message:"error", error : error.message})}},
     getBlogById : async (req, res) => {
         try {
             const {id} =req.params;
@@ -54,11 +54,18 @@ const blogController = {
     },
     postBlog : async (req, res) => {
         try {
-            const {title, content} = req.body
+            const {title, content, videoUrl, categoryId, countryId, keywords} = req.body
+            if(content.length > 500)return res.status(500).json({message : "Content maximum 500 character"})
             await db.sequelize.transaction(async (t) => {
                 const result = await blog.create({
                     title,
-                    content
+                    content,
+                    categoryId,
+                    countryId,
+                    userId : req.user.id,
+                    imgBlog: req.file.path,
+                    videoUrl,
+                    keywords,
                 }, {transaction : t})
                 return res.status(200).json({
                     message : "Blog Created",
@@ -67,6 +74,38 @@ const blogController = {
             })
         } catch (error) {
             return res.status(500).send({message: "Invalid input", error: error.message})
+        }
+    },
+    getCategory : async (req, res) => {
+        try {
+            const result = await category.findAll({
+                attributes : { exclude : ["createdAt", "updatedAt"]}
+            })
+            res.status(200).json({
+                message : "Get data success",
+                data : result
+            })
+        } catch (error) {
+            res.status(500).send({
+                message:"Get data failed",
+                error : error.message
+            })
+        }
+    },
+    getCountry : async (req, res) => {
+        try {
+            const result = await country.findAll({
+                attributes : { exclude : ["createdAt", "updatedAt"]}
+            })
+            res.status(200).json({
+                message : "Get data success",
+                data : result
+            })
+        } catch (error) {
+            res.status(500).send({
+                message:"Get data failed",
+                error : error.message
+            })
         }
     }
 }
