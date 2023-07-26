@@ -43,6 +43,7 @@ const changePasswordValidator = [
     return true
   })
 ]
+
 const resetPasswordValidator = [
   body("newPassword").notEmpty().withMessage("Password cannot be empty")
     .matches(/^.*(?=.{6,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/)

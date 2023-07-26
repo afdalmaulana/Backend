@@ -89,11 +89,23 @@ const verifyPhone = async (req, res, next) => {
     }
     next();
 }
+const verifyResetPassword = async (req,res, next) => {
+    const {id} = req.user;
+    const {newPassword, confirmPassword} = req.body
+    const account = await user.findOne({where : {id}})
+    const checkPassword = await bcrypt.compare(newPassword, account.password)
+    if(checkPassword === true)
+            return res.status(200).json({
+                message : "Old password cannot be same as new password"
+            })
+    next();
+}
 const verifyPassword = async (req, res, next) => {
     const {id} = req.user
     const {currentPassword, newPassword, confirmPassword} = req.body
     const account = await user.findOne({where : {id}})
     const checkPassword = await bcrypt.compare(currentPassword, account.password)
+    
     if(!checkPassword) return res.status(500).json({message : "Incorrect Password"})
     if(currentPassword === newPassword)
             return res.status(200).json({
@@ -131,5 +143,5 @@ const checkRegist = async (req, res, next) => {
 }
 
 
-module.exports = {verifyToken, verifyUsername, verifyEmail, checkRegist, verifyPhone, verifyPassword}
+module.exports = {verifyToken, verifyUsername, verifyEmail, checkRegist, verifyPhone, verifyPassword, verifyResetPassword}
 // module.exports = createUserValidator;
